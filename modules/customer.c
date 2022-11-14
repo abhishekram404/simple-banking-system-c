@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "id.h"
 
 int generateId();
@@ -52,15 +53,49 @@ void registerCustomer(){
     printf("Birth year: %d \n", customer.birthYear);
     printf("Address: %s \n", customer.address);
     printf("Phone: %s \n", customer.phone);
-    printf("Balance: %.2f \n", customer.balance);
+    printf("Account Balance: %.2f \n", customer.balance);
 
 
     FILE *fptr;
-    fptr = fopen("customers.dat", "a");
+    fptr = fopen("customers.txt", "a");
     if(fptr == NULL){
         printf("Error!");
         exit(1);
     }
     fprintf(fptr, "%d %s %s %s %d %s %s %.2f %s \n", customer.id, customer.firstName, customer.lastName, customer.email, customer.birthYear, customer.address, customer.phone, customer.balance, customer.password);
+    fclose(fptr);
+}
+
+
+void displayCustomers(){
+    struct Customer customer;
+    FILE *fptr;
+    fptr = fopen("customers.txt", "r");
+    if(fptr == NULL){
+        printf("Error!");
+        exit(1);
+    }
+
+    char line[300];
+
+    fgets(line, 300, fptr);
+  
+    while(1){
+        if(feof(fptr)){
+            break;
+        }
+        sscanf(line, "%d %s %s %s %d %s %s %f %s", &customer.id, &customer.firstName, &customer.lastName, &customer.email, &customer.birthYear, &customer.address, &customer.phone, &customer.balance, &customer.password);
+        printf("=========================================\n");
+        printf("ID: %d \n", customer.id);
+        printf("First name: %s \n", customer.firstName);
+        printf("Last name: %s \n", customer.lastName);
+        printf("Email: %s \n", customer.email);
+        printf("Birth year: %d \n", customer.birthYear);
+        printf("Address: %s \n", customer.address);
+        printf("Phone: %s \n", customer.phone);
+        printf("Account Balance: %.2f \n", customer.balance);
+        printf("=========================================\n");
+        fgets(line, 300, fptr);
+    }
     fclose(fptr);
 }
