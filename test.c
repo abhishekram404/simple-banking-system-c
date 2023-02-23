@@ -5,7 +5,8 @@
 // Struct to represent a customer
 struct customer {
     int id;
-    char name[50];
+    char fname[50];
+    char lname[50];
     double balance;
 };
 
@@ -32,7 +33,7 @@ void read_customer_data() {
 
     fscanf(f, "%d\n", &num_customers);
     for (int i = 0; i < num_customers; i++) {
-        fscanf(f, "%d,%[^,],%lf\n", &customers[i].id, customers[i].name, &customers[i].balance);
+        fscanf(f, "%d,%s,%s,%lf\n", &customers[i].id, &customers[i].fname, &customers[i].lname, &customers[i].balance);
     }
 
     fclose(f);
@@ -48,7 +49,7 @@ void write_customer_data() {
 
     fprintf(f, "%d\n", num_customers);
     for (int i = 0; i < num_customers; i++) {
-        fprintf(f, "%d,%s,%.2lf\n", customers[i].id, customers[i].name, customers[i].balance);
+        fprintf(f, "%d,%s,%s,%lf\n", customers[i].id, customers[i].fname, customers[i].lname, customers[i].balance);
     }
 
     fclose(f);
@@ -100,10 +101,13 @@ int generate_customer_id() {
 // Function to register a new customer
 void register_customer() {
     // Get customer name and balance
-    char name[50];
+    char fname[50];
+    char lname[50];
     double balance;
-    printf("Enter customer name: ");
-    scanf("%s", name);
+    printf("Enter customer's first name: ");
+    scanf("%s", fname);
+    printf("Enter customer's last name: ");
+    scanf("%s", lname);
     printf("Enter initial balance: ");
     scanf("%lf", &balance);
 
@@ -112,7 +116,8 @@ int id = generate_customer_id();
 
 // Add new customer to array
 customers[num_customers].id = id;
-strcpy(customers[num_customers].name, name);
+strcpy(customers[num_customers].fname, fname);
+strcpy(customers[num_customers].lname, lname);
 customers[num_customers].balance = balance;
 
 // Increment number of customers
@@ -129,7 +134,7 @@ printf("Customer registered successfully\n");
 void display_customers() {
 printf("Customers:\n");
 for (int i = 0; i < num_customers; i++) {
-printf("%d,%s,%.2lf\n", customers[i].id, customers[i].name, customers[i].balance);
+printf("%d,%s,%s,%.2lf\n", customers[i].id, customers[i].fname, customers[i].lname, customers[i].balance);
 }
 }
 
@@ -203,16 +208,22 @@ if (index == -1) {
 }
 
 // Get new name and balance
-char name[50];
+char fname[50];
+char lname[50];
 double balance;
-printf("Enter new name (press enter to skip): ");
-scanf("%s", name);
+printf("Enter new first name (press enter to skip): ");
+scanf("%s", fname);
+printf("Enter new last name (press enter to skip): ");
+scanf("%s", lname);
 printf("Enter new balance (press 0 to skip): ");
 scanf("%lf", &balance);
 
 // Modify customer data
-if (strcmp(name, "") != 0) {
-    strcpy(customers[index].name, name);
+if (strcmp(fname, "") != 0) {
+    strcpy(customers[index].fname, fname);
+}
+if (strcmp(lname, "") != 0) {
+    strcpy(customers[index].lname, lname);
 }
 if (balance != 0) {
     customers[index].balance = balance;
